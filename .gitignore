@@ -5,3 +5,4 @@ profiles_settings.xml
 vcs.xml
 TGGAMES.iml
 .idea/.gitignore
+/chlyapa/players.json

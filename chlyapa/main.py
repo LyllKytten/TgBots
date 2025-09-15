@@ -1,8 +1,16 @@
+from multiprocessing.forkserver import read_signed
+
 import telebot
 import os
 from dotenv import load_dotenv
+import time
 
 import functions
+
+isRoundTime = False
+words = []
+guessers = []
+players = []
 
 load_dotenv()
 api_key = os.getenv('API_KEY')
@@ -20,6 +28,21 @@ help_commands = ["DEFAULT:\n        AFTER ENTERING NAME YOU ARE NOT IN A JOINED 
 def send_help(message):
     for command in help_commands:
         bot.send_message(message.chat.id, command)
+
+async def timer(roundTime, players):
+    isRoundTime = True
+    timeNow = 0
+    while timeNow < roundTime:
+        time.sleep(1)
+        timeNow += 1
+        if timeNow == roundTime-15:
+            for player in players:
+                bot.send_message(player, "15 SECOND\n\n Type /next_round to start a new round" )
+
+    for player in players:
+        bot.send_message(player, "TIME'S UP !!!")
+
+    isRoundTime = False
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -63,7 +86,21 @@ def join_game(message):
 
 @bot.message_handler(commands=['start_game'])
 def start_game(message):
-    functions.pingAllInJoinedPlayers()
+    roundTime = message.text.split(' ')[1]
+    numOfWords = message.text.split(' ')[2]
+    result = functions.pingAllInJoinedPlayers()
+    players = result
+    print(result)
+    for player in result:
+        print(player)
+        bot.send_message(player, "Game started")
+
+    timer(roundTime, result)
+
+@bot.message_handler(commands=['next_round'])
+def next_round(message):
+    if not isRoundTime:
+
 
 def main():
     print("starting bot . . .")
