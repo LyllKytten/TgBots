@@ -1,8 +1,9 @@
-chlyapa/.env
+cap/.env
 modules.xml
 misc.xml
 profiles_settings.xml
 vcs.xml
 TGGAMES.iml
 .idea/.gitignore
-/chlyapa/players.json
+/cap/players.json
+/cap/venv

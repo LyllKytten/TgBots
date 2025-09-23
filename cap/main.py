@@ -100,7 +100,7 @@ def start_game(message):
 @bot.message_handler(commands=['next_round'])
 def next_round(message):
     if not isRoundTime:
-
+        print('aa')
 
 def main():
     print("starting bot . . .")
